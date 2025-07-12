@@ -107,16 +107,21 @@ async function handleInformationFromPages(){
         return data;
     });
     
-    const resultJson = JSON.stringify(result, null, 2); // Convertir a JSON con formato
-    fs.writeFileSync('quotes/quotes.json', resultJson); // Guardar en un archivo JSON
-    
-    console.log(result);
-    
-    
-    
-
     await browser.close();
 
+    return result;
 }
 
-handleInformationFromPages()
+
+function saveDataToJson (resultado, filename = 'quotes2.json') {
+    const dataToJson = JSON.stringify(resultado, null, 2);
+    fs.writeFileSync(`quotes/${filename}`, dataToJson);
+    console.log(`la data se guardo con el nombre ${filename}`);
+}
+
+async function main(){
+    const file = await handleInformationFromPages();
+    saveDataToJson(file);
+}
+
+main();
